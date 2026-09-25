@@ -14,12 +14,6 @@
   if (x) x.addEventListener('click', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 
-  var rv = document.getElementById('reveal'), dl = document.getElementById('dl');
-  if (rv && dl) rv.addEventListener('click', function () {
-    dl.hidden = false; rv.hidden = true;
-    dl.scrollIntoView({ block: 'nearest' });
-  });
-
   // 复制：优先 clipboard API，file:// 下被拦就退回「选中让用户自己按 Ctrl+C」
   function copy(text, btn) {
     var old = btn.textContent;
@@ -40,11 +34,9 @@
     document.body.removeChild(ta);
     done(ok);
   }
-  document.querySelectorAll('[data-copy],[data-text]').forEach(function (btn) {
+  document.querySelectorAll('[data-text]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var sel = btn.getAttribute('data-copy');
-      var el = sel ? document.querySelector(sel) : null;
-      copy(el ? (el.value || el.textContent) : btn.getAttribute('data-text'), btn);
+      copy(btn.getAttribute('data-text'), btn);
     });
   });
 })();

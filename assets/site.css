@@ -95,20 +95,6 @@ h2.sec small { font-weight:400; font-size:14px; color:#a9c4ce; margin-left:10px;
             justify-content:center; }
 .wxline { font-size:15px; }
 .wxline b { font-family:Consolas,Menlo,monospace; font-size:16px; }
-#reveal { width:100%; margin-top:16px; padding:13px; border:none; border-radius:12px;
-          background:var(--bg2); color:#fff; font-size:15.5px; font-weight:700;
-          cursor:pointer; font-family:inherit; }
-#reveal:hover { background:var(--bg3); }
-#dl { margin-top:16px; padding-top:16px; border-top:1px dashed #d5dde1; }
-#dl .dlbtn { display:block; text-align:center; background:#ffd23f; color:var(--ink);
-             font-weight:800; border-radius:12px; padding:14px; font-size:16px; }
-#dl .dlrow { display:flex; gap:10px; margin-top:10px; }
-#dl .dlrow button { flex:0 0 auto; border:1px solid #c9d4da; background:#fff; border-radius:10px;
-                    padding:0 14px; font-size:14px; cursor:pointer; font-family:inherit; }
-#dl .dlrow input { flex:1; border:1px solid #dde4e8; border-radius:10px; padding:10px 12px;
-                   font-size:13px; color:#41525a; background:#f7f9fa; font-family:inherit; }
-#dl .tip { font-size:12.5px; color:#6d7f88; margin-top:12px; }
-#dl .tip b { color:#203a43; }
 .copy { border:1px solid #c9d4da; background:#fff; border-radius:8px; padding:2px 9px;
         font-size:12.5px; cursor:pointer; font-family:inherit; margin-left:6px; }
 footer.foot { text-align:center; font-size:13px; color:#9ab4bf; padding:34px 0 0; }
