@@ -1,5 +1,5 @@
 
-// 「下载」→ 开弹窗；「我已付款」→ 站内显示网盘链接。就这么点逻辑，不引任何库。
+// 「付款后发你」→ 开弹窗（收款码 + 微信号）+ 复制微信号。就这么点逻辑，不引任何库。
 (function () {
   var mask = document.getElementById('mask');
   if (!mask) return;

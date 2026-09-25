@@ -1,49 +1,58 @@
 
-:root { --bg:#0f2027; --bg2:#203a43; --bg3:#2c5364; --gold:#ffd23f;
-        --ink:#1a2a31; --paper:#f4f7f9; --line:rgba(255,255,255,.14); }
+:root { --bg:#0e1c22; --bg2:#203a43; --gold:#ffd23f; --gold2:#ffb700;
+        --ink:#1a2a31; --paper:#f4f7f9; --line:rgba(255,255,255,.13);
+        --dim:#a9c4ce; --dim2:#b9d2db; }
 * { margin:0; padding:0; box-sizing:border-box; }
+/* 底色是纯深色 + 顶部一团光晕（fixed 钉在视口上）。别用整屏线性渐变：
+   页面短的时候下半屏会露出渐变的浅色那头，看着像没加载完。 */
 body { font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
-       background:linear-gradient(165deg,#0f2027 0%,#203a43 55%,#2c5364 100%);
-       background-attachment:fixed; color:#eaf2f5; line-height:1.7;
-       -webkit-font-smoothing:antialiased; }
+       background:#0e1c22;
+       background-image:radial-gradient(900px 520px at 50% -6%,#24454f 0%,rgba(14,28,34,0) 72%);
+       background-repeat:no-repeat; background-attachment:fixed;
+       color:#eaf2f5; line-height:1.7; -webkit-font-smoothing:antialiased; }
 a { color:inherit; text-decoration:none; }
 .wrap { max-width:1000px; margin:0 auto; padding:0 20px 70px; }
 
-header.top { padding:46px 0 30px; text-align:center; }
+header.top { padding:52px 0 34px; text-align:center; }
 header.top .brand { font-size:34px; font-weight:800; letter-spacing:1px; }
 header.top .tag { color:#cfe3ea; font-size:15px; margin-top:10px; }
 header.top .tag b { color:var(--gold); }
 
-.crumb { padding:22px 0 6px; font-size:14px; color:#a9c4ce; }
+.crumb { padding:22px 0 6px; font-size:14px; color:var(--dim); }
 .crumb a:hover { color:var(--gold); }
 .crumb span { opacity:.5; margin:0 7px; }
 
 h2.sec { font-size:22px; font-weight:700; margin:26px 0 16px; }
-h2.sec small { font-weight:400; font-size:14px; color:#a9c4ce; margin-left:10px; }
+h2.sec small { font-weight:400; font-size:14px; color:var(--dim); margin-left:10px; }
 
-.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
-.card { background:rgba(255,255,255,.07); border:1px solid var(--line); border-radius:16px;
-        padding:18px; transition:.18s; display:block; }
-.card:hover { background:rgba(255,255,255,.13); border-color:rgba(255,210,63,.5);
-              transform:translateY(-2px); }
-.card .ico { font-size:26px; }
-.card .cname { font-size:20px; font-weight:700; margin:6px 0 4px; }
-.card .cdesc { font-size:13px; color:#b9d2db; min-height:44px; }
-.card .cmeta { font-size:13px; color:var(--gold); margin-top:10px; }
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); }
+/* 顶上一道金线做 hover 反馈：卡片本身没图，靠这个让它「活」一点 */
+.card, .bcard { position:relative; overflow:hidden; border-radius:18px;
+        background:rgba(255,255,255,.06); border:1px solid var(--line);
+        padding:20px; transition:.2s; }
+.card::before, .bcard::before { content:""; position:absolute; left:0; right:0; top:0; height:3px;
+        background:linear-gradient(90deg,var(--gold),rgba(255,210,63,0)); opacity:0; transition:.2s; }
+.card:hover, .bcard:hover { background:rgba(255,255,255,.12);
+        border-color:rgba(255,210,63,.45); transform:translateY(-3px); }
+.card:hover::before, .bcard:hover::before { opacity:1; }
+.card { display:flex; flex-direction:column; }
+.card .ico { width:48px; height:48px; border-radius:14px; background:rgba(255,210,63,.13);
+        display:flex; align-items:center; justify-content:center; font-size:25px; }
+.card .cname { font-size:20px; font-weight:800; margin:12px 0 4px; }
+.card .cdesc { font-size:13px; color:var(--dim2); flex:1; }
+.card .cmeta { font-size:13px; color:var(--gold); font-weight:600; margin-top:14px; }
 
-.bcard { background:rgba(255,255,255,.07); border:1px solid var(--line); border-radius:16px;
-         overflow:hidden; display:flex; flex-direction:column; transition:.18s; }
-.bcard:hover { border-color:rgba(255,210,63,.5); transform:translateY(-2px); }
-/* 海报很长（750×1700 左右），卡片里只露最上面一截：固定高 + overflow 裁，
-   别用 object-fit（各家浏览器对 aspect-ratio + cover 的处理不一致，会把整张压扁） */
-.bcard .thumb { height:250px; overflow:hidden; background:#0b171c;
-                border-bottom:1px solid var(--line); }
-.bcard .thumb img { width:100%; display:block; }
-.bcard .binfo { padding:14px 16px; flex:1; display:flex; flex-direction:column; }
-.bcard .bname { font-size:18px; font-weight:700; }
-.bcard .bsub { font-size:12.5px; color:#b9d2db; margin:6px 0 12px; flex:1; }
-.bcard .bfoot { display:flex; align-items:center; justify-content:space-between; }
-.bcard .bprice { color:var(--gold); font-weight:800; font-size:19px; }
+/* 年级卡：整张卡是文字，价格行贴底对齐（flex + margin-top:auto），
+   这样标题两行/副标题长短不一时按钮也在同一条线上。 */
+.bcard { display:flex; flex-direction:column; }
+.bcard .btag { align-self:flex-start; font-size:11.5px; letter-spacing:1px; font-weight:600;
+        color:var(--gold); border:1px solid rgba(255,210,63,.45);
+        border-radius:999px; padding:3px 11px; }
+.bcard .bname { font-size:19px; font-weight:800; margin:12px 0 6px; line-height:1.45; }
+.bcard .bsub { font-size:12.5px; color:var(--dim2); flex:1; }
+.bcard .bfoot { display:flex; align-items:center; justify-content:space-between; gap:10px;
+        margin-top:16px; padding-top:14px; border-top:1px solid var(--line); }
+.bcard .bprice { color:var(--gold); font-weight:800; font-size:20px; }
 
 .btn { display:inline-block; background:var(--gold); color:var(--ink); font-weight:700;
        border:none; border-radius:999px; padding:11px 22px; font-size:15px; cursor:pointer;
@@ -62,15 +71,20 @@ h2.sec small { font-weight:400; font-size:14px; color:#a9c4ce; margin-left:10px;
 .points .p { background:rgba(255,255,255,.07); border:1px solid var(--line);
              border-radius:13px; padding:14px 16px; font-size:15px; }
 .points .p b { color:var(--gold); }
-.pricebar { background:linear-gradient(135deg,#ffd23f,#ffb700); color:var(--ink);
-            border-radius:16px; padding:20px 24px; display:flex; align-items:center;
-            justify-content:space-between; gap:18px; flex-wrap:wrap; margin-bottom:22px; }
-.pricebar .pl { font-size:15px; font-weight:600; }
-.pricebar .pr { font-size:44px; font-weight:900; letter-spacing:-1px; }
-.pricebar .pr small { font-size:15px; font-weight:600; }
-.buy { margin-bottom:30px; }
-.posterimg { width:100%; max-width:750px; border-radius:18px; display:block; margin:0 auto 20px; }
-.note { font-size:13px; color:#a9c4ce; border-top:1px dashed var(--line); padding-top:16px; }
+/* 价格 + 按钮合成一条金色横条：原来「金色价格条 + 金色按钮」两块黄叠着，
+   价格写了两遍，又重又乱。现在价格在左、深色按钮在右，一眼就是「这里付款」。 */
+.pricebar { background:linear-gradient(135deg,var(--gold),var(--gold2)); color:var(--ink);
+            border-radius:18px; padding:20px 24px; display:flex; align-items:center;
+            justify-content:space-between; gap:18px; flex-wrap:wrap; margin-bottom:26px; }
+.pricebar .pl { font-size:16px; font-weight:800; }
+.pricebar .pls { font-size:12.5px; font-weight:500; color:rgba(26,42,49,.75);
+                 margin-top:2px; max-width:400px; }
+.pricebar .pr { display:flex; align-items:center; gap:16px; }
+.pricebar .pn { font-size:42px; font-weight:900; letter-spacing:-1.5px; }
+.pricebar .pn small { font-size:14px; font-weight:700; letter-spacing:0; }
+.btn.dark { background:var(--ink); color:var(--gold); padding:12px 22px; }
+.btn.dark:hover { background:#0b171c; filter:none; }
+.note { font-size:13px; color:var(--dim); border-top:1px dashed var(--line); padding-top:16px; }
 .note li { margin-left:20px; }
 
 /* 弹窗 */
@@ -100,8 +114,14 @@ h2.sec small { font-weight:400; font-size:14px; color:#a9c4ce; margin-left:10px;
 footer.foot { text-align:center; font-size:13px; color:#9ab4bf; padding:34px 0 0; }
 footer.foot b { color:var(--gold); }
 @media (max-width:640px){
+  header.top { padding:34px 0 24px; }
   header.top .brand { font-size:26px; }
   .points { grid-template-columns:1fr; }
   .phead h1 { font-size:25px; }
+  .pricebar { padding:18px 20px; gap:12px; }
+  .pricebar .pls { max-width:none; }
+  .pricebar .pn { font-size:34px; }
+  .pricebar .pr { width:100%; justify-content:space-between; }
+  .btn.dark { padding:11px 18px; }
   .qr img { width:150px; height:150px; }
 }
